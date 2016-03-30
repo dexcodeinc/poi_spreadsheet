@@ -5,7 +5,9 @@ class PoiSpreadsheet
 
   def self.init
     apache_poi_path = File.dirname(__FILE__)+'/../apache/poi-3.14-20160307.jar'
-    Rjb::load(apache_poi_path, ['-Xmx512M'])
+    apache_poi_ooxml_path = File.dirname(__FILE__)+'/../apache/poi-ooxml-3.14-20160307.jar'
+    
+    Rjb::load("#{apache_poi_path}:#{apache_poi_ooxml_path}", ['-Xmx512M'])
 
     @cell_class = cell_class = Rjb::import('org.apache.poi.ss.usermodel.Cell')
 
