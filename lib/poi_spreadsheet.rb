@@ -7,13 +7,12 @@ class PoiSpreadsheet
     apache_poi_path = File.dirname(__FILE__)+'/../apache/poi-3.10.1-20140818.jar'
     Rjb::load(apache_poi_path, ['-Xmx512M'])
 
-    @cell_class = cell_class = Rjb::import('org.apache.poi.hssf.usermodel.HSSFCell')
+    @cell_class = cell_class = Rjb::import('org.apache.poi.ss.usermodel.Cell')
 
 
-    Rjb::import('org.apache.poi.hssf.usermodel.HSSFCreationHelper')
-    Rjb::import('org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator')
+    Rjb::import('org.apache.poi.ss.usermodel.CreationHelper')
+    Rjb::import('org.apache.poi.ss.usermodel.FormulaEvaluator')
 
-    @cell_reference_class = Rjb::import('org.apache.poi.hssf.util.CellReference')
     # You can import all java classes that you need
     @loaded = true
   end
@@ -37,7 +36,7 @@ class PoiSpreadsheet
     def self.load file
       @file_name = file
 
-      @workbook_class = Rjb::import('org.apache.poi.hssf.usermodel.HSSFWorkbook')
+      @workbook_factory_class = Rjb::import('org.apache.poi.ss.usermodel.WorkbookFactory')
       @poifs_class = Rjb::import('org.apache.poi.poifs.filesystem.POIFSFileSystem')
       @file_input_class = Rjb::import('java.io.FileInputStream')
       @file_input = @file_input_class.new(file)
@@ -45,7 +44,7 @@ class PoiSpreadsheet
       book = new
 
       fs = @poifs_class.new(@file_input)
-      book.j_book = @workbook_class.new(fs)
+      book.j_book = @workbook_factory_class.new(fs)
       book
     end
 
@@ -202,6 +201,3 @@ class PoiSpreadsheet
   end
 
 end
-
-
-
